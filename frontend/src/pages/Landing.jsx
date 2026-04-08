@@ -348,14 +348,7 @@ const Landing = () => {
             <p className="text-sm">Centralized Student Notice Communication System</p>
           </div>
           
-          <div className="md:text-right space-y-2">
-            <p className="text-sm">
-              <span className="text-slate-500">Developed By:</span> <span className="text-slate-200 font-medium">Sakshi Singh & Aditya Vikram</span>
-            </p>
-            <p className="text-sm">
-              <span className="text-slate-500">Presented To:</span> <span className="text-slate-200 font-medium">Dr. Bhupinder Kaur</span>
-            </p>
-          </div>
+          
         </div>
       </footer>
 
