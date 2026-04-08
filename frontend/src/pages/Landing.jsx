@@ -81,7 +81,7 @@ const Landing = () => {
       </header>
 
       {/* 2. Hero Section */}
-      <section className="min-h-[calc(100vh-80px)] flex items-center py-12 px-6 overflow-hidden">
+      <section className="min-h-[calc(100vh-80px)] mt-0 pt-2 flex items-center py-12 px-6 overflow-visible">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal delay={100}>
             <div className="max-w-2xl">
@@ -112,7 +112,7 @@ const Landing = () => {
 
           {/* Floating UI Mockup */}
           <Reveal delay={300}>
-            <div className="relative w-full aspect-square md:aspect-video lg:aspect-square flex justify-center items-center">
+            <div className="relative w-full flex justify-center items-center py-16 mt-8 lg:mt-0">
               <div className="absolute inset-0 bg-teal-600/5 blur-3xl rounded-full" />
               <div className="relative w-full max-w-md bg-white rounded-3xl border border-slate-100 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-6 animate-[float_6s_ease-in-out_infinite] z-10">
                 <div className="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
@@ -137,7 +137,7 @@ const Landing = () => {
                 </div>
               </div>
               {/* Glassmorphism accent card */}
-              <div className="absolute -bottom-10 -left-10 w-48 bg-white/60 backdrop-blur-xl border border-white rounded-2xl p-4 shadow-xl z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
+              <div className="absolute -bottom-6 -left-4 lg:-left-12 lg:-bottom-6 w-56 bg-white/60 backdrop-blur-xl border border-white rounded-2xl p-4 shadow-xl z-20 animate-[float_8s_ease-in-out_infinite_reverse]">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
                     <Bell className="w-5 h-5" />
