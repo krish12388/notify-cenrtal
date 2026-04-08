@@ -48,7 +48,7 @@ const Landing = () => {
   if (user) return <Navigate to="/dashboard" />;
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-teal-200">
+    <div className="min-h-screen w-screen bg-white text-slate-900 font-sans selection:bg-teal-200">
       
       {/* 1. Navigation Top Bar */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
@@ -71,7 +71,7 @@ const Landing = () => {
             <Link to="/login" className="hidden sm:block text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors">
               Log in
             </Link>
-            <a href="https://rajput127sakshi.wixsite.com/college-notice-porta" target="_blank" rel="noopener noreferrer">
+            <a href="https://notify-cenrtal.vercel.app/" target="_blank" rel="noopener noreferrer">
               <Button className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-6 py-5 shadow-md hover:scale-105 transition-transform">
                 Visit Site
               </Button>
@@ -81,7 +81,7 @@ const Landing = () => {
       </header>
 
       {/* 2. Hero Section */}
-      <section className="pt-32 pb-20 px-6 overflow-hidden">
+      <section className="min-h-[calc(100vh-80px)] flex items-center py-12 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal delay={100}>
             <div className="max-w-2xl">
@@ -208,7 +208,7 @@ const Landing = () => {
                   <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
                 </div>
                 <div className="mx-auto bg-white/50 text-xs text-slate-500 px-3 py-1 rounded-md w-1/2 text-center truncate">
-                  rajput127sakshi.wixsite.com/college-notice-porta
+                  https://notify-cenrtal.vercel.app/
                 </div>
               </div>
               <div className="aspect-4/3 bg-slate-50 flex flex-col relative overflow-hidden">
@@ -325,7 +325,7 @@ const Landing = () => {
                 <QrCode className="w-16 h-16 text-slate-300" />
               </div>
               <p className="text-slate-500 mb-6 max-w-sm">Scan to visit our interactive prototype or click the button below to explore the vision.</p>
-              <a href="https://rajput127sakshi.wixsite.com/college-notice-porta" target="_blank" rel="noopener noreferrer">
+              <a href="https://notify-cenrtal.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-full">
                   Visit Prototype
                 </Button>

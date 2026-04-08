@@ -1,11 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Bell, Bookmark as BookmarkIcon, User as UserIcon, LogOut, LayoutDashboard, PlusCircle, FileText, Settings, HelpCircle, Search, MoreHorizontal } from 'lucide-react';
 import { Button } from '../ui/button';
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const mainNav = [
     { name: 'Notices Feed', path: '/dashboard', icon: Bell },
@@ -92,9 +98,13 @@ const Sidebar = () => {
           <HelpCircle className="w-4 h-4 shrink-0" />
           <span>Get Help</span>
         </button>
+        <button onClick={handleLogout} className="flex items-center gap-3 px-2 py-1.5 mt-2 rounded-md w-full text-left text-rose-500 hover:bg-rose-500/10 hover:text-rose-600 transition-colors">
+          <LogOut className="w-4 h-4 shrink-0" />
+          <span className="font-medium">Log out</span>
+        </button>
       </div>
 
-      <div className="flex items-center justify-between mt-2 pt-2 cursor-pointer rounded-lg hover:bg-muted/40 p-2 transition-colors -mx-2" onClick={logout}>
+      <div className="flex items-center justify-between mt-2 pt-2 rounded-lg p-2 -mx-2">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground text-xs font-bold border border-border">
             {user?.name?.substring(0, 2).toUpperCase() || 'ST'}
