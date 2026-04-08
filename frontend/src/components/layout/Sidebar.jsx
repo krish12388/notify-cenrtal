@@ -20,7 +20,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-[260px] h-screen bg-transparent flex flex-col px-4 py-4 text-sm font-medium border-r border-border/60">
+    <aside style={{backgroundColor: "#e0f2fe"}} className="w-[260px] h-screen  flex flex-col px-4 py-4 text-sm font-medium border-r border-border/60">
       <div className="flex items-center gap-2 px-2 mb-6 text-foreground">
         <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs">
           N
