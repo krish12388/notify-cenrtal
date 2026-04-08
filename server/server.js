@@ -19,7 +19,25 @@ const app = express();
 const server = http.createServer(app);
 
 // Connect to Database
-connectDB();
+const User = require('./models/User');
+connectDB().then(async () => {
+  try {
+    const adminExists = await User.findOne({ role: 'admin' });
+    if (!adminExists) {
+      await User.create({
+        name: 'Admin User',
+        email: 'admin@college.edu',
+        password: 'password123',
+        role: 'admin',
+        branch: 'CS',
+        year: 4
+      });
+      console.log('✅ Auto-Seeded default Admin User since none existed!');
+    }
+  } catch (err) {
+    console.error('Error auto-seeding admin:', err);
+  }
+});
 
 // Initialize Socket.io
 socketHandler.init(server);
