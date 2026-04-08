@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Bell, Bookmark as BookmarkIcon, User as UserIcon, LogOut, LayoutDashboard, PlusCircle, FileText, Settings, HelpCircle, Search, MoreHorizontal } from 'lucide-react';
 import { Button } from '../ui/button';
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const Sidebar = () => {
 
       {(user?.role === 'cr' || user?.role === 'admin') && (
         <div className="px-2 mb-6">
-          <NavLink to="/create" className="w-full">
+          <NavLink to="/create" className="w-full" onClick={onClose}>
             <Button className="w-full justify-start bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg h-9 font-medium shadow-sm">
               <PlusCircle className="mr-2 h-4 w-4" /> Quick Create
             </Button>
@@ -50,6 +50,7 @@ const Sidebar = () => {
             <NavLink
               key={item.name}
               to={item.path}
+              onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-2 py-1.5 rounded-md transition-colors ${
                   isActive
@@ -70,6 +71,7 @@ const Sidebar = () => {
             <NavLink
               key={item.name}
               to={item.path}
+              onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-2 py-1.5 rounded-md transition-colors ${
                   isActive
@@ -90,7 +92,7 @@ const Sidebar = () => {
       </nav>
 
       <div className="mt-auto space-y-1 pt-6 pb-4 border-t border-border/40">
-        <NavLink to="/profile" className="flex items-center gap-3 px-2 py-1.5 rounded-md text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors">
+        <NavLink to="/profile" onClick={onClose} className="flex items-center gap-3 px-2 py-1.5 rounded-md text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors">
           <Settings className="w-4 h-4 shrink-0" />
           <span>Settings</span>
         </NavLink>

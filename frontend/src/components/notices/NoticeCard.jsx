@@ -41,9 +41,9 @@ const NoticeCard = ({ notice }) => {
               <Calendar className="w-3.5 h-3.5" />
               <span>{format(new Date(notice.createdAt), 'MMM dd, yyyy')}</span>
             </div>
-            <div className="flex items-center gap-1.5 truncate max-w-[120px]">
+            <div className="flex items-center gap-1.5 truncate max-w-[220px]">
               <User className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{notice.postedBy?.name || 'Admin'}</span>
+              <span className="truncate">Announced by {notice.postedBy?.name || 'Admin'}</span>
             </div>
           </div>
           

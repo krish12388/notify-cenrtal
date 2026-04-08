@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '', email: '', password: '', rollNumber: '', branch: '', year: '1'
+    name: '', email: '', password: '', rollNumber: '', branch: '', year: '1', role: 'student'
   });
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -65,6 +65,19 @@ const Register = () => {
                 <label className="text-sm font-medium text-foreground">Year (1-4)</label>
                 <Input name="year" type="number" min="1" max="4" value={formData.year} onChange={handleChange} />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Account Role</label>
+              <select 
+                name="role" 
+                onChange={handleChange} 
+                defaultValue="student"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors hover:border-primary/50"
+              >
+                <option value="student">Student (Read only)</option>
+                <option value="cr">Class Representative (Can post notices)</option>
+              </select>
             </div>
 
             <Button type="submit" className="w-full h-12 text-md mt-4 shadow-[0_0_15px_oklch(0.65_0.22_295/0.2)]">Register Account</Button>

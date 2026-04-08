@@ -45,8 +45,23 @@ socketHandler.init(server);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Adjust CORS based on env. Let's allow all for dev, or specify CLIENT_URL
-app.use(cors({ origin: process.env.CLIENT_URL || '*', credentials: true }));
+// Adjust CORS
+const allowedOrigins = [
+  process.env.CLIENT_URL, 
+  'http://localhost:5173', 
+  'http://127.0.0.1:5173'
+].filter(Boolean);
+
+app.use(cors({ 
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS connection blocked'));
+    }
+  }, 
+  credentials: true 
+}));
 app.use(helmet());
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));

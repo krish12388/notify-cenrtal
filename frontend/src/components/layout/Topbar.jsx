@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Bell } from 'lucide-react';
+import { Search, Bell, Menu } from 'lucide-react';
 import { Input } from '../ui/input';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-const Topbar = ({ title }) => {
+const Topbar = ({ title, toggleSidebar }) => {
   const [searchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get('q') || '');
   const navigate = useNavigate();
@@ -23,10 +23,15 @@ const Topbar = ({ title }) => {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-6 bg-transparent">
-      <h2 className="text-xl font-bold tracking-tight text-foreground">{title}</h2>
+    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 sm:px-6 bg-transparent">
+      <div className="flex items-center gap-3">
+        <button onClick={toggleSidebar} className="p-2 -ml-2 md:hidden text-foreground hover:bg-muted rounded-md transition-colors">
+          <Menu className="w-5 h-5" />
+        </button>
+        <h2 className="text-xl font-bold tracking-tight text-foreground hidden sm:block">{title}</h2>
+      </div>
 
-      <div className="flex items-center flex-1 max-w-md ml-8 px-4 relative">
+      <div className="flex items-center flex-1 max-w-md ml-4 sm:ml-8 px-4 relative">
         <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input 
           type="text" 
