@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -48,9 +49,13 @@ const AdminDashboard = () => {
     <div className="space-y-8 max-w-7xl mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Admin/CR Panel</h1>
-        <Button className="shadow-[0_0_15px_oklch(0.65_0.22_295/0.4)] transition-all">
-          <PlusCircle className="mr-2 h-4 w-4" /> Post New Notice
-        </Button>
+        
+        <Link to="/create">
+          <Button className="shadow-[0_0_15px_oklch(0.65_0.22_295/0.4)] transition-all">
+            <PlusCircle className="mr-2 h-4 w-4" /> Post New Notice
+          </Button>
+        </Link>
+        
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
