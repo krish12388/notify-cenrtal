@@ -17,7 +17,7 @@ const Sidebar = ({ onClose }) => {
     { name: 'Notices Feed', path: '/dashboard', icon: Bell },
   ];
 
-  if (user?.role === 'cr' || user?.role === 'admin') {
+  if (user?.role === 'admin') {
     mainNav.push({ name: 'Admin Panel', path: '/admin', icon: LayoutDashboard });
   }
 
