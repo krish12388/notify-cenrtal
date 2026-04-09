@@ -21,6 +21,7 @@ const noticeSchema = new mongoose.Schema({
   priority: { type: String, enum: ['normal', 'urgent'], default: 'normal' },
   postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   expiryDate: { type: Date },
+  classroomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Classroom' },
   isActive: { type: Boolean, default: true }
 }, { timestamps: true });
 

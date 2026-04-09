@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   rollNumber: { type: String },
   branch: { type: String },
   year: { type: Number, min: 1, max: 4 },
-  role: { type: String, enum: ['student', 'cr', 'admin'], default: 'student' },
+  role: { type: String, enum: ['student', 'cr', 'admin', 'teacher'], default: 'student' },
   notificationPreferences: {
     inApp: { type: Boolean, default: true },
     email: { type: Boolean, default: false }

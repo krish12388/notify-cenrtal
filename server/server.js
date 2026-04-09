@@ -14,6 +14,8 @@ const noticeRoutes = require('./routes/notice.routes');
 const userRoutes = require('./routes/user.routes');
 const notificationRoutes = require('./routes/notification.routes');
 const bookmarkRoutes = require('./routes/bookmark.routes');
+const classroomRoutes = require('./routes/classroom.routes');
+const assignmentRoutes = require('./routes/assignment.routes');
 
 const app = express();
 const server = http.createServer(app);
@@ -76,6 +78,8 @@ app.use('/api/notices', noticeRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/classrooms', classroomRoutes);
+app.use('/api/assignments', assignmentRoutes);
 
 // Base route
 app.get('/', (req, res) => {

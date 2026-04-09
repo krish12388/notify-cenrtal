@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 
 const AdminDashboard = () => {
   const [notices, setNotices] = useState([]);
+  const [users, setUsers] = useState([]);
   const [stats, setStats] = useState({ total: 0, active: 0, users: 0 });
 
   useEffect(() => {
@@ -23,11 +24,13 @@ const AdminDashboard = () => {
       ]);
       if (noticesRes.data.success) {
         setNotices(noticesRes.data.data);
-        const data = noticesRes.data.data;
+        const noticesData = noticesRes.data.data;
+        const usersData = usersRes.data?.data || [];
+        setUsers(usersData);
         setStats({
-          total: data.length,
-          active: data.filter(n => n.isActive).length,
-          users: usersRes.data?.data?.length || 0
+          total: noticesData.length,
+          active: noticesData.filter(n => n.isActive).length,
+          users: usersData.length
         });
       }
     } catch (error) {
@@ -42,6 +45,16 @@ const AdminDashboard = () => {
         setNotices(notices.filter(n => n._id !== id));
         toast.success('Notice deleted');
       } catch (err) { toast.error('Failed to delete'); }
+    }
+  };
+
+  const handleDeleteUser = async (id) => {
+    if(window.confirm('Delete this user permanently?')) {
+      try {
+        await api.delete(`/users/${id}`);
+        setUsers(users.filter(u => u._id !== id));
+        toast.success('User deleted successfully');
+      } catch (err) { toast.error('Failed to delete user'); }
     }
   };
 
@@ -135,6 +148,43 @@ const AdminDashboard = () => {
                       <button className="text-accent hover:text-accent/80"><Pencil className="w-4 h-4 inline" /></button>
                       <button className="text-muted-foreground hover:text-foreground"><Archive className="w-4 h-4 inline" /></button>
                       <button onClick={() => handleDelete(notice._id)} className="text-destructive hover:text-destructive/80"><Trash className="w-4 h-4 inline" /></button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <h2 className="px-6 py-4 text-lg font-bold border-b">Manage Users</h2>
+            <table className="w-full text-sm text-left">
+              <thead className="bg-muted text-muted-foreground uppercase text-xs">
+                <tr>
+                  <th className="px-6 py-4 font-medium">Name</th>
+                  <th className="px-6 py-4 font-medium">Email</th>
+                  <th className="px-6 py-4 font-medium">Role</th>
+                  <th className="px-6 py-4 font-medium text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {users.map(u => (
+                  <tr key={u._id} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-6 py-4 font-medium">{u.name}</td>
+                    <td className="px-6 py-4">{u.email}</td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 rounded text-xs font-semibold ${u.role === 'teacher' ? 'bg-blue-500/20 text-blue-500' : u.role === 'admin' ? 'bg-purple-500/20 text-purple-500' : 'bg-green-500/20 text-green-500'}`}>
+                        {u.role.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {u.role !== 'admin' && (
+                        <button onClick={() => handleDeleteUser(u._id)} className="text-destructive hover:text-destructive/80">
+                          <Trash className="w-4 h-4 inline" />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

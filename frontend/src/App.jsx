@@ -9,6 +9,9 @@ import Bookmarks from './pages/Bookmarks';
 import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
 import CreateNotice from './pages/CreateNotice';
+import ClassroomsList from './pages/ClassroomsList';
+import ClassroomDetail from './pages/ClassroomDetail';
+import AssignmentDetail from './pages/AssignmentDetail';
 import { useAuth } from './context/AuthContext';
 import { Toaster } from 'sonner';
 
@@ -58,6 +61,21 @@ function App() {
           <Route path="/profile" element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="/classrooms" element={
+            <ProtectedRoute>
+              <ClassroomsList />
+            </ProtectedRoute>
+          } />
+          <Route path="/classrooms/:id" element={
+            <ProtectedRoute>
+              <ClassroomDetail />
+            </ProtectedRoute>
+          } />
+          <Route path="/assignments/:id" element={
+            <ProtectedRoute>
+              <AssignmentDetail />
             </ProtectedRoute>
           } />
         </Route>

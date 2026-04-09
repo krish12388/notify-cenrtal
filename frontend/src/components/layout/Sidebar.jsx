@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Bell, Bookmark as BookmarkIcon, User as UserIcon, LogOut, LayoutDashboard, PlusCircle, FileText, Settings, HelpCircle, Search, MoreHorizontal } from 'lucide-react';
+import { Bell, Bookmark as BookmarkIcon, User as UserIcon, LogOut, LayoutDashboard, PlusCircle, FileText, Settings, HelpCircle, Search, MoreHorizontal, GraduationCap } from 'lucide-react';
 import { Button } from '../ui/button';
 
 const Sidebar = ({ onClose }) => {
@@ -15,6 +15,7 @@ const Sidebar = ({ onClose }) => {
 
   const mainNav = [
     { name: 'Notices Feed', path: '/dashboard', icon: Bell },
+    { name: 'Classrooms', path: '/classrooms', icon: GraduationCap },
   ];
 
   if (user?.role === 'admin') {
@@ -84,10 +85,12 @@ const Sidebar = ({ onClose }) => {
               <span>{item.name}</span>
             </NavLink>
           ))}
-          <button className="flex items-center gap-3 px-2 py-1.5 rounded-md w-full text-left text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors">
-            <MoreHorizontal className="w-4 h-4 shrink-0" />
-            <span>More</span>
-          </button>
+          {(user?.role === 'teacher' || user?.role === 'admin') && (
+            <NavLink to="/classrooms?create=true" onClick={onClose} className="flex items-center gap-3 px-2 py-1.5 rounded-md text-primary hover:bg-primary/10 transition-colors">
+              <PlusCircle className="w-4 h-4 shrink-0" />
+              <span>Create Classroom</span>
+            </NavLink>
+          )}
         </div>
       </nav>
 

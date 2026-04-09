@@ -29,7 +29,7 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-lg bg-card/80 backdrop-blur shadow-2xl relative overflow-hidden border-border rounded-2xl">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-accent to-primary" />
         <CardHeader className="space-y-1 mt-2">
           <CardTitle className="text-3xl font-bold text-center">Create Account</CardTitle>
           <CardDescription className="text-center">Join the centralized notice portal</CardDescription>
@@ -77,6 +77,7 @@ const Register = () => {
               >
                 <option value="student">Student (Read only)</option>
                 <option value="cr">Class Representative (Can post notices)</option>
+                <option value="teacher">Teacher (Can manage classrooms)</option>
               </select>
             </div>
 
