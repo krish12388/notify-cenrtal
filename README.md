@@ -1,8 +1,8 @@
 # Centralized Student Notice Communication System (NotifyCentral) 🎓
 
-A modern, highly optimized MERN-stack web application designed to bridge the communication gap between college administration, class representatives, and students. Say goodbye to scattered WhatsApp drops and ignored physical notice boards!
+A modern, highly optimized MERN-stack web application designed to bridge the communication gap between college administration, class representatives, and students while providing comprehensive classroom and assignment management. Say goodbye to scattered WhatsApp drops and ignored physical notice boards!
 
-Built with a premium, minimalist "HelloBonsai-inspired" UI aesthetic, NotifyCentral ensures critical academic updates, exam schedules, and urgent alerts are delivered in **real-time** directly to students.
+Built with a premium, minimalist "HelloBonsai-inspired" UI aesthetic, NotifyCentral ensures critical academic updates, exam schedules, urgent alerts, assignments, and classroom activities are delivered in **real-time** directly to students.
 
 ---
 
@@ -10,11 +10,15 @@ Built with a premium, minimalist "HelloBonsai-inspired" UI aesthetic, NotifyCent
 
 * **Real-Time Push Notifications**: Powered by Socket.io, urgent notices instantly trigger high-visibility toast alerts across all active student clients.
 * **Role-Based Access Control (RBAC)**: 
-  * **Admins & CRs**: Have exclusive permission to launch the rich-text 'Quick Create' portal to publish content.
-  * **Students**: Have optimized, read-only feeds grouped cleanly by priority and category.
+  * **Admins, Teachers & CRs**: Have exclusive permission to launch the rich-text 'Quick Create' portal to publish notices and create/manage classrooms and assignments.
+  * **Students**: Have optimized, read-only feeds for notices, can join classrooms, submit assignments, and bookmark important content.
 * **Granular Notice Targeting**: Broadly publish to "All Students" or surgically target specific branches (e.g., Computer Science) and academic years (e.g., Third-Year only).
 * **Rich Text Publishing**: Integrated with React-Quill, ensuring notices retain critical formatting, headers, listicles, and clarity. 
 * **Categorization Engine**: Sort massive feeds seamlessly between *Urgent, Exams, Academic, General, Event, and Holiday* verticals.
+* **Classroom Management**: Teachers can create and manage virtual classrooms for specific branches and academic years, allowing targeted communication and assignment distribution.
+* **Assignment System**: Teachers can create assignments with due dates, descriptions, and file attachments. Students can submit their work and track progress.
+* **Bookmarking**: Students can bookmark important notices for quick access and reference.
+* **User Profiles**: Comprehensive profile management with notification preferences and academic details.
 
 ---
 
