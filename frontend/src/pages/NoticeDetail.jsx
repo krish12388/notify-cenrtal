@@ -7,6 +7,7 @@ import { Badge } from '../components/ui/badge';
 import { categoryColors } from '../utils/categoryColors';
 import { ArrowLeft, User, Calendar, BookmarkPlus, BookmarkCheck, Paperclip } from 'lucide-react';
 import { toast } from 'sonner';
+import { Skeleton } from '../components/ui/skeleton';
 
 const NoticeDetail = () => {
   const { id } = useParams();
@@ -56,7 +57,31 @@ const NoticeDetail = () => {
     }
   };
 
-  if (loading) return <div className="animate-pulse space-y-4 max-w-4xl mx-auto"><div className="h-64 bg-card rounded-xl"></div></div>;
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-6">
+        <Skeleton className="h-5 w-24 bg-transparent mb-4" />
+        <Card className="rounded-2xl border-border bg-card">
+          <CardHeader className="p-8 border-b border-border pb-6">
+            <div className="flex gap-3 mb-4">
+              <Skeleton className="h-6 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-10 w-3/4 mb-6" />
+            <div className="flex gap-6">
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-5 w-40" />
+            </div>
+          </CardHeader>
+          <CardContent className="p-8 space-y-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-[90%]" />
+            <Skeleton className="h-4 w-[95%]" />
+            <Skeleton className="h-4 w-3/4" />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
   if (!notice) return <div className="text-center mt-20 text-muted-foreground">Notice not found.</div>;
 
   const badgeColorClass = categoryColors[notice.category] || categoryColors['General'];

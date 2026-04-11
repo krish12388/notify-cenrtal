@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import NoticeCard from '../components/notices/NoticeCard';
+import NoticeCardSkeleton from '../components/notices/NoticeCardSkeleton';
 import { useSocket } from '../context/SocketContext';
 
 const Dashboard = () => {
@@ -86,9 +87,9 @@ const Dashboard = () => {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1,2,3,4,5,6].map(n => (
-            <div key={n} className="h-48 bg-card border border-border rounded-xl"></div>
+            <NoticeCardSkeleton key={n} />
           ))}
         </div>
       ) : notices.length > 0 ? (
