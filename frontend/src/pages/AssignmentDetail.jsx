@@ -67,8 +67,7 @@ const AssignmentDetail = () => {
     }
   };
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-  const BASE_URL = API_URL.replace('/api', '');
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
   if (loading) return <div>Loading...</div>;
   if (!assignment) return <div>Assignment not found</div>;

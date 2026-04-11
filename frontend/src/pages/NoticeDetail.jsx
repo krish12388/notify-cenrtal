@@ -134,7 +134,7 @@ const NoticeDetail = () => {
               </h4>
               <div className="flex flex-wrap gap-3">
                 {notice.attachments.map((file, idx) => (
-                  <a key={idx} href={`http://localhost:5000${file.url}`} target="_blank" rel="noreferrer"
+                  <a key={idx} href={`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}${file.url}`} target="_blank" rel="noreferrer"
                      className="px-4 py-2 rounded-lg bg-input border border-border flex items-center gap-2 text-sm hover:border-primary/50 transition-colors">
                      {file.filename}
                   </a>
