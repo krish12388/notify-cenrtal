@@ -74,10 +74,16 @@ const ClassroomDetail = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="bg-primary/5 p-6 rounded-xl border border-primary/20">
-        <h1 className="text-3xl font-bold text-primary">{classroom.name}</h1>
+      <div className="bg-primary/5 p-6 rounded-xl border border-primary/20 relative">
+        {classroom.classId && (
+          <div className="absolute top-6 right-6 bg-background px-4 py-2 rounded-lg border shadow-sm text-center">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class ID</p>
+            <p className="font-mono text-xl font-bold tracking-wider text-primary">{classroom.classId}</p>
+          </div>
+        )}
+        <h1 className="text-3xl font-bold text-primary pr-32">{classroom.name}</h1>
         <p className="text-muted-foreground mt-2">Branch: {classroom.branch} | Year: {classroom.year}</p>
-        <p className="text-sm">Teacher: {classroom.teacher?.name}</p>
+        <p className="text-sm mt-1 font-medium">Teacher: {classroom.teacher?.name}</p>
       </div>
 
       <div className="space-y-6">

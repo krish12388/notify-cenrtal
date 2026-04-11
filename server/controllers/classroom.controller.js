@@ -9,8 +9,11 @@ exports.createClassroom = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Not authorized to create classrooms' });
     }
 
+    const classId = Math.random().toString(36).substring(2, 8).toUpperCase();
+
     const classroom = await Classroom.create({
       name,
+      classId,
       branch,
       year,
       teacher: req.user.id
@@ -70,8 +73,8 @@ exports.joinClassroom = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Only students can join classrooms manually' });
     }
 
-    const classroom = await Classroom.findById(id);
-    if (!classroom) return res.status(404).json({ success: false, message: 'Classroom not found' });
+    const classroom = await Classroom.findOne({ classId: id });
+    if (!classroom) return res.status(404).json({ success: false, message: 'Classroom not found. Please check the ID.' });
 
     if (!classroom.students.includes(req.user.id)) {
       classroom.students.push(req.user.id);

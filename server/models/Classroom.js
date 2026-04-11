@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const classroomSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  classId: { type: String, unique: true },
   branch: { type: String, required: true },
   year: { type: Number, required: true, min: 1, max: 4 },
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

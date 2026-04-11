@@ -62,23 +62,25 @@ const Register = () => {
               <Input name="password" type="password" placeholder="••••••••" onChange={handleChange} required minLength={6} />
             </div>
 
-            <div className="p-4 bg-muted/40 rounded-lg border border-border/60">
-              <h3 className="text-sm font-bold text-primary mb-3">Class Details</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Roll No.</label>
-                  <Input name="rollNumber" placeholder="EC102" onChange={handleChange} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Branch</label>
-                  <Input name="branch" placeholder="IT" onChange={handleChange} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-muted-foreground">Year (1-4)</label>
-                  <Input name="year" type="number" min="1" max="4" value={formData.year} onChange={handleChange} />
+            {formData.role !== 'teacher' && (
+              <div className="p-4 bg-muted/40 rounded-lg border border-border/60">
+                <h3 className="text-sm font-bold text-primary mb-3">Class Details</h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Roll No.</label>
+                    <Input name="rollNumber" placeholder="EC102" onChange={handleChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Branch</label>
+                    <Input name="branch" placeholder="IT" onChange={handleChange} />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-muted-foreground">Year (1-4)</label>
+                    <Input name="year" type="number" min="1" max="4" value={formData.year} onChange={handleChange} />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Account Role</label>
