@@ -32,16 +32,7 @@ exports.getClassrooms = async (req, res, next) => {
     if (req.user.role === 'teacher') {
       query.teacher = req.user.id;
     } else if (req.user.role === 'student' || req.user.role === 'cr') {
-      const user = await User.findById(req.user.id);
-      
-      const branchRegex = user.branch ? new RegExp('^' + user.branch + '$', 'i') : null;
-      
-      query = {
-        $or: [
-          { branch: { $regex: branchRegex || /.*/ }, year: user.year }, // Automatic match
-          { students: req.user.id } // Explicitly joined
-        ]
-      };
+      query = { students: req.user.id };
     }
 
     const classrooms = await Classroom.find(query).populate('teacher', 'name email');
