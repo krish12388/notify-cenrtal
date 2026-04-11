@@ -67,6 +67,19 @@ const ClassroomDetail = () => {
     }
   };
 
+  const handleDeleteClassroom = async () => {
+    if (!window.confirm("Are you sure you want to delete this classroom? This action is permanent and will remove all student connections and assignments.")) return;
+    try {
+      const res = await api.delete(`/classrooms/${id}`);
+      if (res.data.success) {
+        toast.success("Classroom deleted");
+        navigate('/classrooms');
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to delete classroom');
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!classroom) return <div>Classroom not found</div>;
 
@@ -75,15 +88,21 @@ const ClassroomDetail = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="bg-primary/5 p-6 rounded-xl border border-primary/20 relative">
-        {classroom.classId && (
-          <div className="absolute top-6 right-6 bg-background px-4 py-2 rounded-lg border shadow-sm text-center">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class ID</p>
-            <p className="font-mono text-xl font-bold tracking-wider text-primary">{classroom.classId}</p>
-          </div>
-        )}
+        <div className="absolute top-6 right-6 bg-background px-4 py-2 rounded-lg border shadow-sm text-center">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class ID</p>
+          <p className="font-mono text-xl font-bold tracking-wider text-primary">
+            {classroom.classId || classroom._id}
+          </p>
+        </div>
         <h1 className="text-3xl font-bold text-primary pr-32">{classroom.name}</h1>
         <p className="text-muted-foreground mt-2">Branch: {classroom.branch} | Year: {classroom.year}</p>
         <p className="text-sm mt-1 font-medium">Teacher: {classroom.teacher?.name}</p>
+        
+        {isTeacher && (
+           <Button variant="destructive" size="sm" className="mt-4 shadow-sm" onClick={handleDeleteClassroom}>
+             Delete Classroom
+           </Button>
+        )}
       </div>
 
       <div className="space-y-6">

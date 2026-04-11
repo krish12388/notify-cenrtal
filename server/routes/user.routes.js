@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUsers, getUserById, updateProfile, changePassword, deleteUser } = require('../controllers/user.controller');
+const { getUsers, getUserById, updateProfile, changePassword, deleteUser, deleteMyAccount } = require('../controllers/user.controller');
 const { protect } = require('../middleware/auth.middleware');
 const { authorize } = require('../middleware/role.middleware');
 
@@ -9,6 +9,7 @@ router.route('/')
   .get(protect, authorize('admin'), getUsers);
 
 router.put('/profile', protect, updateProfile);
+router.delete('/profile', protect, deleteMyAccount);
 router.put('/change-password', protect, changePassword);
 
 router.route('/:id')

@@ -73,15 +73,39 @@ exports.joinClassroom = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Only students can join classrooms manually' });
     }
 
-    const classroom = await Classroom.findOne({ classId: id });
+    const mongoose = require('mongoose');
+    let classroom = await Classroom.findOne({ classId: id });
+    
+    if (!classroom && mongoose.Types.ObjectId.isValid(id)) {
+      classroom = await Classroom.findById(id);
+    }
+    
     if (!classroom) return res.status(404).json({ success: false, message: 'Classroom not found. Please check the ID.' });
 
     if (!classroom.students.includes(req.user.id)) {
       classroom.students.push(req.user.id);
       await classroom.save();
     }
-
+    
     res.status(200).json({ success: true, message: 'Joined classroom successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete a classroom
+exports.deleteClassroom = async (req, res, next) => {
+  try {
+    const classroom = await Classroom.findById(req.params.id);
+    if (!classroom) return res.status(404).json({ success: false, message: 'Classroom not found' });
+
+    // Ensure user is admin OR the teacher who created it
+    if (req.user.role !== 'admin' && classroom.teacher.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this classroom' });
+    }
+
+    await Classroom.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true, message: 'Classroom deleted successfully' });
   } catch (error) {
     next(error);
   }

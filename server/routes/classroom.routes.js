@@ -1,5 +1,5 @@
 const express = require('express');
-const { createClassroom, getClassrooms, getClassroomById, joinClassroom } = require('../controllers/classroom.controller');
+const { createClassroom, getClassrooms, getClassroomById, joinClassroom, deleteClassroom } = require('../controllers/classroom.controller');
 const { protect } = require('../middleware/auth.middleware');
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.get('/', getClassrooms);
 router.post('/join', joinClassroom);
 
 router.route('/:id')
-  .get(getClassroomById);
+  .get(getClassroomById)
+  .delete(deleteClassroom);
 
 module.exports = router;

@@ -43,3 +43,10 @@ exports.deleteUser = async (req, res, next) => {
     res.status(200).json({ success: true, data: {} });
   } catch (error) { next(error); }
 };
+
+exports.deleteMyAccount = async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+    res.status(200).json({ success: true, message: 'Account deleted successfully' });
+  } catch (error) { next(error); }
+};

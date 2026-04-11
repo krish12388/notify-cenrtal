@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -8,6 +9,7 @@ import api from '../services/api';
 
 const Profile = () => {
   const { user, setUser } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '', branch: '', year: ''
   });
@@ -36,6 +38,21 @@ const Profile = () => {
       }
     } catch (error) {
       toast.error('Failed to update profile');
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.')) return;
+    try {
+      const res = await api.delete('/users/profile');
+      if (res.data.success) {
+        toast.success("Account deleted successfully");
+        setUser(null);
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to delete account');
     }
   };
 
@@ -82,7 +99,7 @@ const Profile = () => {
          </CardHeader>
          <CardContent>
            <p className="text-sm text-muted-foreground mb-4">Deleting your account is permanent.</p>
-           <Button variant="destructive">Delete Account</Button>
+           <Button variant="destructive" onClick={handleDeleteAccount}>Delete Account</Button>
          </CardContent>
       </Card>
     </div>

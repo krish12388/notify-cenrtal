@@ -158,15 +158,15 @@ const ClassroomsList = () => {
                 <CardTitle>{cr.name}</CardTitle>
                 <p className="text-sm text-muted-foreground">{cr.branch} - Year {cr.year}</p>
               </CardHeader>
-              <CardContent className="pt-4 flex justify-between items-end">
+              <CardContent className="pt-4 flex justify-between items-end gap-2">
                 <div>
                   <p className="text-sm"><strong>Teacher:</strong> {cr.teacher?.name || 'Unknown'}</p>
                 </div>
-                {cr.classId && (
-                  <div className="bg-muted px-3 py-1 rounded-md border border-border">
-                    <p className="text-xs font-mono font-bold text-primary">ID: {cr.classId}</p>
-                  </div>
-                )}
+                <div className="bg-muted px-3 py-1 rounded-md border border-border shrink-0 max-w-[50%] overflow-hidden">
+                  <p className="text-xs font-mono font-bold text-primary truncate" title={cr.classId || cr._id}>
+                    ID: {cr.classId || cr._id}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ))}
