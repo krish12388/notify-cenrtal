@@ -10,6 +10,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Ping backend to wake up sleeping server (e.g. Render free tier)
+    api.get('/ping').catch(() => {});
+
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');

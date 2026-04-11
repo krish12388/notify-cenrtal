@@ -10,6 +10,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '', email: '', password: '', rollNumber: '', branch: '', year: '1', role: 'student'
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -28,11 +29,13 @@ const Register = () => {
     }
 
     try {
+      setIsSubmitting(true);
       await register({ ...formData, year: parseInt(formData.year) });
       navigate('/dashboard');
       toast.success('Registration successful');
     } catch (err) {
       toast.error(err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || 'Failed to register');
+      setIsSubmitting(false);
     }
   };
 
@@ -96,7 +99,9 @@ const Register = () => {
               </select>
             </div>
 
-            <Button type="submit" className="w-full h-12 text-md mt-4 shadow-[0_0_15px_oklch(0.65_0.22_295/0.2)]">Register Account</Button>
+            <Button type="submit" disabled={isSubmitting} className="w-full h-12 text-md mt-4 shadow-[0_0_15px_oklch(0.65_0.22_295/0.2)]">
+              {isSubmitting ? 'Creating Account (Server waking up)...' : 'Register Account'}
+            </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">

@@ -73,6 +73,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
+app.get('/api/ping', (req, res) => res.status(200).send('pong'));
 app.use('/api/auth', authRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/users', userRoutes);

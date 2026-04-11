@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -25,11 +26,13 @@ const Login = () => {
     }
     
     try {
+      setIsSubmitting(true);
       await login(email, password);
       navigate('/dashboard');
       toast.success('Logged in successfully');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to login');
+      setIsSubmitting(false);
     }
   };
 
@@ -63,7 +66,9 @@ const Login = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full mt-4 h-12 text-md">Login</Button>
+            <Button type="submit" disabled={isSubmitting} className="w-full mt-4 h-12 text-md">
+              {isSubmitting ? 'Logging in (Server waking up)...' : 'Login'}
+            </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
