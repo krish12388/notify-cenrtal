@@ -17,6 +17,16 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validations
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return toast.error('Please enter a valid email address');
+    }
+    if (formData.password.length < 6) {
+      return toast.error('Password must be at least 6 characters long');
+    }
+
     try {
       await register({ ...formData, year: parseInt(formData.year) });
       navigate('/dashboard');

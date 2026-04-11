@@ -14,6 +14,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validations
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return toast.error('Please enter a valid email address');
+    }
+    if (password.length < 6) {
+      return toast.error('Password must be at least 6 characters long');
+    }
+    
     try {
       await login(email, password);
       navigate('/dashboard');
@@ -26,7 +36,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-card/80 backdrop-blur shadow-2xl relative overflow-hidden border-border rounded-2xl">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary to-accent" />
         <CardHeader className="space-y-2 mt-2">
           <CardTitle className="text-3xl font-bold text-center">Welcome Back</CardTitle>
           <CardDescription className="text-center">Enter your credentials to access the portal</CardDescription>
