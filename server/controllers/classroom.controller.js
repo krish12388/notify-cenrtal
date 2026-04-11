@@ -9,7 +9,7 @@ exports.createClassroom = async (req, res, next) => {
       return res.status(403).json({ success: false, message: 'Not authorized to create classrooms' });
     }
 
-    const classId = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const classId = Math.random().toString(36).substring(2, 7).toUpperCase();
 
     const classroom = await Classroom.create({
       name,

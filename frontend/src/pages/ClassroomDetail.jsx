@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { toast } from 'sonner';
+import { Copy } from 'lucide-react';
 
 const ClassroomDetail = () => {
   const { id } = useParams();
@@ -80,6 +81,14 @@ const ClassroomDetail = () => {
     }
   };
 
+  const copyToClipboard = () => {
+    const idToCopy = classroom?.classId || classroom?._id;
+    if (idToCopy) {
+      navigator.clipboard.writeText(idToCopy);
+      toast.success("Class ID copied to clipboard!");
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!classroom) return <div>Classroom not found</div>;
 
@@ -88,11 +97,14 @@ const ClassroomDetail = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="bg-primary/5 p-6 rounded-xl border border-primary/20 relative">
-        <div className="absolute top-6 right-6 bg-background px-4 py-2 rounded-lg border shadow-sm text-center">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Class ID</p>
-          <p className="font-mono text-xl font-bold tracking-wider text-primary">
-            {classroom.classId || classroom._id}
-          </p>
+        <div className="absolute top-6 right-6 bg-background px-4 py-2 rounded-lg border shadow-sm text-center group cursor-pointer hover:border-primary/50 transition-colors" onClick={copyToClipboard} title="Click to copy">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Class ID</p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="font-mono text-xl font-bold tracking-wider text-primary">
+              {classroom.classId || classroom._id}
+            </p>
+            <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+          </div>
         </div>
         <h1 className="text-3xl font-bold text-primary pr-32">{classroom.name}</h1>
         <p className="text-muted-foreground mt-2">Branch: {classroom.branch} | Year: {classroom.year}</p>
