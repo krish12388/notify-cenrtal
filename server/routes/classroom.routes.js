@@ -11,8 +11,7 @@ router.get('/', getClassrooms);
 
 router.post('/join', joinClassroom);
 
-router.route('/:id')
-  .get(getClassroomById)
-  .delete(deleteClassroom);
+router.get('/:id', getClassroomById);
+router.delete('/:id', deleteClassroom);
 
 module.exports = router;
