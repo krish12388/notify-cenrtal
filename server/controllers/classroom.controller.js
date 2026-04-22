@@ -1,5 +1,6 @@
 const Classroom = require('../models/Classroom');
-const User = require('../models/User');
+// const User = require('../models/User'); // COMMENTED FOR POSTGRES MIGRATION
+const pgdb = require('../config/pgdb');
 
 // Create a classroom (Teacher)
 exports.createClassroom = async (req, res, next) => {
@@ -35,7 +36,20 @@ exports.getClassrooms = async (req, res, next) => {
       query = { students: req.user.id };
     }
 
-    const classrooms = await Classroom.find(query).populate('teacher', 'name email');
+    // const classrooms = await Classroom.find(query).populate('teacher', 'name email'); // COMMENTED FOR POSTGRES MIGRATION
+    const classrooms = await Classroom.find(query).lean();
+    
+    const teacherIds = [...new Set(classrooms.map(c => c.teacher?.toString()))];
+    if (teacherIds.length > 0) {
+      const { rows: users } = await pgdb.query('SELECT id, name, email FROM users WHERE id = ANY($1::varchar[])', [teacherIds]);
+      const userMap = {};
+      users.forEach(u => userMap[u.id] = { _id: u.id, name: u.name, email: u.email });
+      
+      classrooms.forEach(c => {
+        c.teacher = userMap[c.teacher?.toString()] || c.teacher;
+      });
+    }
+
     res.status(200).json({ success: true, classrooms });
   } catch (error) {
     next(error);
@@ -45,10 +59,17 @@ exports.getClassrooms = async (req, res, next) => {
 // Get classroom by ID
 exports.getClassroomById = async (req, res, next) => {
   try {
-    const classroom = await Classroom.findById(req.params.id).populate('teacher', 'name email');
+    // const classroom = await Classroom.findById(req.params.id).populate('teacher', 'name email'); // COMMENTED FOR POSTGRES MIGRATION
+    const classroom = await Classroom.findById(req.params.id).lean();
     if (!classroom) {
       return res.status(404).json({ success: false, message: 'Classroom not found' });
     }
+
+    const { rows: users } = await pgdb.query('SELECT id, name, email FROM users WHERE id = $1', [classroom.teacher?.toString()]);
+    if (users.length > 0) {
+      classroom.teacher = { _id: users[0].id, name: users[0].name, email: users[0].email };
+    }
+
     res.status(200).json({ success: true, classroom });
   } catch (error) {
     next(error);

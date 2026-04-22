@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const connectDB = require('./config/db');
+const pgdb = require('./config/pgdb'); // ADDED FOR POSTGRES
 const socketHandler = require('./utils/socketHandler');
 
 // Routes
@@ -21,8 +22,12 @@ const app = express();
 const server = http.createServer(app);
 
 // Connect to Database
-const User = require('./models/User');
+// const User = require('./models/User'); // COMMENTED FOR POSTGRES MIGRATION
 connectDB().then(async () => {
+  // Initialize Postgres DB
+  await pgdb.initDB();
+  
+  /* COMMENTED FOR POSTGRES MIGRATION
   try {
     const adminExists = await User.findOne({ role: 'admin' });
     if (!adminExists) {
@@ -39,6 +44,7 @@ connectDB().then(async () => {
   } catch (err) {
     console.error('Error auto-seeding admin:', err);
   }
+  */
 });
 
 // Initialize Socket.io

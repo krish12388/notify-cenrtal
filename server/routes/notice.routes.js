@@ -12,7 +12,7 @@ router.route('/')
   .get(getNotices)
   .post(
     protect, 
-    authorize('cr', 'admin'), 
+    authorize('cr', 'admin', 'teacher'), 
     upload.array('files', 5), 
     [
       check('title', 'Title is required').not().isEmpty(),
@@ -24,8 +24,8 @@ router.route('/')
 
 router.route('/:id')
   .get(getNoticeById)
-  .put(protect, authorize('cr', 'admin'), updateNotice)
-  .delete(protect, authorize('cr', 'admin'), deleteNotice);
+  .put(protect, authorize('cr', 'admin', 'teacher'), updateNotice)
+  .delete(protect, authorize('cr', 'admin', 'teacher'), deleteNotice);
 
 router.patch('/:id/archive', protect, authorize('admin'), archiveNotice);
 

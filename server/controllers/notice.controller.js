@@ -1,6 +1,7 @@
 const Notice = require('../models/Notice');
 const Notification = require('../models/Notification');
-const User = require('../models/User');
+// const User = require('../models/User'); // COMMENTED FOR POSTGRES MIGRATION
+const pgdb = require('../config/pgdb');
 const socketHandler = require('../utils/socketHandler');
 
 exports.createNotice = async (req, res, next) => {
@@ -24,7 +25,19 @@ exports.createNotice = async (req, res, next) => {
     if (audience.type === 'branch') query.branch = audience.branch;
     else if (audience.type === 'year') query.year = audience.year;
 
+    /* COMMENTED FOR POSTGRES MIGRATION
     const users = await User.find(query).select('_id');
+    */
+    let pgQueryStr = 'SELECT id as "_id" FROM users WHERE role = $1';
+    let pgParams = ['student'];
+    if (audience.type === 'branch') {
+      pgQueryStr += ' AND branch = $2';
+      pgParams.push(audience.branch);
+    } else if (audience.type === 'year') {
+      pgQueryStr += ' AND year = $2';
+      pgParams.push(audience.year);
+    }
+    const { rows: users } = await pgdb.query(pgQueryStr, pgParams);
     const notificationDocs = users.map(u => ({
       recipient: u._id,
       notice: notice._id,
@@ -64,11 +77,24 @@ exports.getNotices = async (req, res, next) => {
     const skip = (page - 1) * limit;
     
     const notices = await Notice.find(query)
-      .populate('postedBy', 'name role')
+      // .populate('postedBy', 'name role') // COMMENTED FOR POSTGRES MIGRATION
       .sort({ priority: -1, createdAt: -1 })
       .skip(skip)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean(); // Use lean to modify the object
       
+    // Fetch users from Postgres
+    const userIds = [...new Set(notices.map(n => n.postedBy?.toString()))];
+    if (userIds.length > 0) {
+      const { rows: users } = await pgdb.query('SELECT id, name, role FROM users WHERE id = ANY($1::varchar[])', [userIds]);
+      const userMap = {};
+      users.forEach(u => userMap[u.id] = { _id: u.id, name: u.name, role: u.role });
+      
+      notices.forEach(n => {
+        n.postedBy = userMap[n.postedBy.toString()] || n.postedBy;
+      });
+    }
+
     const totalCount = await Notice.countDocuments(query);
 
     res.status(200).json({ success: true, count: notices.length, totalCount, data: notices });
@@ -77,8 +103,16 @@ exports.getNotices = async (req, res, next) => {
 
 exports.getNoticeById = async (req, res, next) => {
   try {
-    const notice = await Notice.findById(req.params.id).populate('postedBy', 'name role');
+    // const notice = await Notice.findById(req.params.id).populate('postedBy', 'name role'); // COMMENTED FOR POSTGRES MIGRATION
+    const notice = await Notice.findById(req.params.id).lean();
     if (!notice) return res.status(404).json({ success: false, message: 'Notice not found' });
+    
+    // Fetch user from Postgres
+    const { rows: users } = await pgdb.query('SELECT id, name, role FROM users WHERE id = $1', [notice.postedBy.toString()]);
+    if (users.length > 0) {
+      notice.postedBy = { _id: users[0].id, name: users[0].name, role: users[0].role };
+    }
+
     res.status(200).json({ success: true, data: notice });
   } catch (error) { next(error); }
 };

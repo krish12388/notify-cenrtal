@@ -35,7 +35,7 @@ const Sidebar = ({ onClose }) => {
         <span className="font-semibold text-base tracking-tight">Notify Central</span>
       </div>
 
-      {(user?.role === 'cr' || user?.role === 'admin') && (
+      {(user?.role === 'cr' || user?.role === 'admin' || user?.role === 'teacher') && (
         <div className="px-2 mb-6">
           <NavLink to="/create" className="w-full" onClick={onClose}>
             <Button className="w-full justify-start bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg h-9 font-medium shadow-sm">

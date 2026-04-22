@@ -54,7 +54,7 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/create" element={
-            <ProtectedRoute reqRole={['admin', 'cr']}>
+            <ProtectedRoute reqRole={['admin', 'cr', 'teacher']}>
               <CreateNotice />
             </ProtectedRoute>
           } />
