@@ -27,8 +27,12 @@ const Login = () => {
     
     try {
       setIsSubmitting(true);
-      await login(email, password);
-      navigate('/dashboard');
+      const data = await login(email, password);
+      if (data?.user?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
       toast.success('Logged in successfully');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to login');

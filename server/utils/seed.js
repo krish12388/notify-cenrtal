@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const Notice = require('../models/Notice');
 const connectDB = require('../config/db');
+const pgdb = require('../config/pgdb');
+const bcrypt = require('bcryptjs');
 
 const seedData = async () => {
   await connectDB();
@@ -46,9 +48,24 @@ const seedData = async () => {
       });
     }
 
+    await pgdb.initDB();
+    await pgdb.query('DELETE FROM users');
+    const salt = await bcrypt.genSalt(10);
+
     const createdUsers = [];
     for (const u of users) {
-      createdUsers.push(await User.create(u));
+      const newId = pgdb.generateId();
+      const hashedPassword = await bcrypt.hash(u.password, salt);
+      
+      const insertQuery = `
+        INSERT INTO users (id, name, email, password, "rollNumber", branch, year, role) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      `;
+      const insertValues = [newId, u.name, u.email, hashedPassword, u.rollNumber || null, u.branch || null, u.year || null, u.role];
+      await pgdb.query(insertQuery, insertValues);
+
+      const mongoUser = await User.create({ ...u, _id: newId });
+      createdUsers.push(mongoUser);
     }
     const crId = createdUsers.find(u => u.role === 'cr')._id;
 
